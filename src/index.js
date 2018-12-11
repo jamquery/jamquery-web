@@ -2,6 +2,7 @@ import express from "express";
 import mysql from "mysql";
 import fs from "fs";
 import path from "path";
+import helmet from "helmet";
 
 // Setup express
 const app = express();
@@ -89,6 +90,8 @@ router.get("/:keyword", (req, res) => {
     }
   );
 });
+
+app.use(helmet());
 
 app.use(function(err, req, res, next) {
   // Do logging and user-friendly error message display

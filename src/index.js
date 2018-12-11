@@ -1,13 +1,16 @@
+import express from "express";
+import mysql from "mysql";
+import fs from "fs";
+import path from "path";
+
 // Setup express
-var express = require("express");
-var app = express();
+const app = express();
 
 // Setup mysql database
 // dbconfig.json에 설정 정보를 입력해야 함.
-var mysql = require("mysql");
-var dbconfig = require("./dbconfig.json");
-
-var connection = mysql.createConnection({
+const raw = fs.readFileSync(path.join(__dirname, "../config", "dbconfig.json"));
+const dbconfig = JSON.parse(raw);
+const connection = mysql.createConnection({
   host: dbconfig.host,
   user: dbconfig.user,
   password: dbconfig.password,
@@ -17,35 +20,35 @@ var connection = mysql.createConnection({
 connection.connect();
 
 // 2. Setup rules (middlewares)
-var router = express.Router();
+const router = express.Router();
 
-function makeRawResponse() {
+const makeRawResponse = (...responses) => {
   var ret = "";
-  for (var i = 0; i < arguments.length; i++) {
-    ret += arguments[i];
-    if (i != arguments.length - 1) {
+  for (var i = 0; i < responses.length; i++) {
+    ret += responses[i];
+    if (i != responses.length - 1) {
       ret += "\n";
     }
   }
   return ret;
-}
+};
 
-function renderLink(name, link) {
+const renderLink = (name, link) => {
   return '<li><a href="' + link + '">' + name + "</a></li>";
-}
+};
 
-router.get("/", function(req, res) {
-  response = makeRawResponse(
-    "Welcome to Jamquery!\n",
-    "We have no landing page yet.\n",
-    "/{keyword} for search\n",
+router.get("/", (req, res) => {
+  var response = makeRawResponse(
+    "Welcome to Jamquery!",
+    "We have no landing page yet.",
+    "/{keyword} for search",
     "/+{keyword} for add new link."
   );
 
   res.send(response);
 });
 
-router.get("/:keyword", function(req, res) {
+router.get("/:keyword", (req, res) => {
   var keyword = req.params.keyword;
 
   console.log(
@@ -58,14 +61,10 @@ router.get("/:keyword", function(req, res) {
 
   connection.query(
     "SELECT * FROM tb_jamquery WHERE name LIKE '%" + keyword + "%'",
-    function(err, rows) {
+    (err, rows) => {
       if (err) throw err;
 
-      links = rows
-        .map(function(row) {
-          return renderLink(row.name, row.url);
-        })
-        .join("\n");
+      var links = rows.map(row => renderLink(row.name, row.url)).join("\n");
 
       links = "<ol>" + links + "</ol>";
 
@@ -83,13 +82,6 @@ router.get("/:keyword", function(req, res) {
 app.use("/", router);
 
 // Listening to requests
-var args = process.argv;
-if (args.length > 2) {
-  port = parseInt(args[2]);
-} else {
-  port = 3000;
-}
-
-var server = app.listen(port, function() {
-  console.log("Express server has started on port " + port);
+var server = app.listen(3000, () => {
+  console.log("Express server has started on port " + 3000);
 });

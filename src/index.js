@@ -9,8 +9,6 @@ const app = express();
 
 // Setup mysql database
 // dbconfig.json에 설정 정보를 입력해야 함.
-const raw = fs.readFileSync(path.join(__dirname, "../config", "dbconfig.json"));
-const dbconfig = JSON.parse(raw);
 const connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USERNAME,

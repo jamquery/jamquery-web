@@ -42,10 +42,6 @@ const makeRawResponse = (...responses) => {
   return ret;
 };
 
-const renderLink = (name, link) => {
-  return '<li><a href="' + link + '">' + name + "</a></li>";
-};
-
 router.get("/", (req, res) => {
   var response = makeRawResponse(
     "Welcome to Jamquery!",

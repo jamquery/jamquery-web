@@ -1,8 +1,7 @@
 import express from "express";
 import mysql from "mysql";
-import fs from "fs";
-import path from "path";
 import helmet from "helmet";
+import parseArgs from "minimist";
 
 // Setup express
 const app = express();
@@ -98,7 +97,16 @@ app.use(express.json());
 // mount the router on the app
 app.use("/", router);
 
+const argv = parseArgs(process.argv.slice(2));
+console.log(argv);
+
+var port = 3000;
+if (argv.p) {
+  port = parseInt(argv.p);
+} else if (argv.port) {
+  port = parseInt(argv.port);
+}
 // Listening to requests
-var server = app.listen(3000, () => {
-  console.log("Express server has started on port " + 3000);
+var server = app.listen(port, () => {
+  console.log(`Express server has started on port ${port}`);
 });

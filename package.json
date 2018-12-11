@@ -1,15 +1,18 @@
 {
   "name": "jamquery-node",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "engines": {
+    "node": "10.14.1"
+  },
   "description": "Jamquery Node.js backend",
   "main": "dist/index.js",
   "files": [
     "dist/index.js"
   ],
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
+    "start": "source config/setup-env.sh; nodemon --exec babel-node src/index.js",
     "build": "babel src --out-dir dist",
-    "serve": "node dist/index.js"
+    "serve": "source config/setup-env.sh; node dist/index.js"
   },
   "author": "tura",
   "license": "MIT",

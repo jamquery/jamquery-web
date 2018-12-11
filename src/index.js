@@ -11,10 +11,10 @@ const app = express();
 const raw = fs.readFileSync(path.join(__dirname, "../config", "dbconfig.json"));
 const dbconfig = JSON.parse(raw);
 const connection = mysql.createConnection({
-  host: dbconfig.host,
-  user: dbconfig.user,
-  password: dbconfig.password,
-  database: dbconfig.database
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DB_NAME
 });
 
 // Establishing connection

@@ -12,7 +12,7 @@
   "scripts": {
     "start": "source config/setup-env.sh; nodemon --exec babel-node src/index.js",
     "build": "babel src --out-dir dist",
-    "serve": "source config/setup-env.sh; node dist/index.js"
+    "serve": "source config/setup-env.sh; export NODE_ENV=production; node dist/index.js"
   },
   "author": "tura",
   "license": "MIT",

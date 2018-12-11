@@ -17,7 +17,15 @@ const connection = mysql.createConnection({
   database: dbconfig.database
 });
 
-connection.connect();
+// Establishing connection
+connection.connect(err => {
+  if (err) {
+    console.error("Error connecting to mysql: " + err.stack);
+    return;
+  }
+
+  console.log("Connected to mysql as id " + connection.threadId);
+});
 
 // 2. Setup rules (middlewares)
 const router = express.Router();
@@ -40,43 +48,55 @@ const renderLink = (name, link) => {
 router.get("/", (req, res) => {
   var response = makeRawResponse(
     "Welcome to Jamquery!",
-    "We have no landing page yet.",
-    "/{keyword} for search",
-    "/+{keyword} for add new link."
+    "We have no landing page yet."
   );
 
   res.send(response);
 });
 
+router.post("/", (req, res) => {
+  const data = req.body;
+
+  // Sanity check
+  if (data == undefined || data.url == undefined || data.name == undefined) {
+    res.status(400).send("Bad request format");
+    return;
+  }
+
+  const sql = `INSERT INTO tb_jamquery (name, url) VALUES (?, ?)`;
+  connection.query(sql, [data.name, data.url], function(err, results, fields) {
+    if (err) {
+      console.error("Error occurred while performing the query: " + sql);
+      res.status(500).send("Internal Error occured");
+      return;
+    }
+
+    res.json({
+      id: results.insertId
+    });
+  });
+});
+
+// TOOD: Levensthein algorithm
 router.get("/:keyword", (req, res) => {
   var keyword = req.params.keyword;
-
-  console.log(
-    "Incomming request from [" +
-      req.hostname +
-      "] for keyword [" +
-      keyword +
-      "]"
-  );
 
   connection.query(
     "SELECT * FROM tb_jamquery WHERE name LIKE '%" + keyword + "%'",
     (err, rows) => {
       if (err) throw err;
-
-      var links = rows.map(row => renderLink(row.name, row.url)).join("\n");
-
-      links = "<ol>" + links + "</ol>";
-
-      var response = makeRawResponse(
-        "<p>You requested for keyword [" + keyword + "]</p>",
-        links
-      );
-
-      res.send(response);
+      res.json(rows);
     }
   );
 });
+
+app.use(function(err, req, res, next) {
+  // Do logging and user-friendly error message display
+  console.error(err.stack);
+  res.status(500).send("internal server error");
+});
+
+app.use(express.json());
 
 // mount the router on the app
 app.use("/", router);

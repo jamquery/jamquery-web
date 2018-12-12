@@ -10,17 +10,19 @@
     "dist/index.js"
   ],
   "scripts": {
-    "start": "source config/setup-env.sh; nodemon --exec babel-node src/index.js",
+    "start": "source config/setup-env.sh; nodemon --exec babel-node index.js",
     "build": "babel src --out-dir dist",
     "serve": "source config/setup-env.sh; export NODE_ENV=production; node dist/index.js"
   },
   "author": "tura",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "ejs": "^2.6.1",
     "eslint": "^5.9.0",
     "express": "^4.16.4",
     "helmet": "^3.15.0",
+    "jade": "^1.11.0",
     "jshint": "^2.9.6",
     "minimist": "^1.2.0",
     "mysql": "^2.16.0"

@@ -8,9 +8,14 @@
   <body>
     <h2>Jamquery</h2>
     <p>"/ for search with name, # for search with date, + for add"</p>
-    <input id="read-line" type="text" oninput="onReadLine(this.value)" />
-    <p id="res-text">Request:</p>
-    <ul id="result"></ul>
+    <input
+      id="read-line"
+      type="text"
+      oninput="onReadLine(this.value)"
+      onkeyup="if (event.keyCode == 13) onEnter(this.value)"
+    />
+    <div id="res"><p>Request:</p></div>
+    <ol id="result"></ul>
     <script src="main.js"></script>
   </body>
 </html>

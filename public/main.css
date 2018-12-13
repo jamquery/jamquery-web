@@ -1,3 +1,7 @@
+body {
+  color: #333333;
+}
+
 a {
   color: #333333;
 }
@@ -17,4 +21,8 @@ a:hover {
 
 a:active {
   text-decoration: underline;
+}
+
+ol#result {
+  color: #fe4a49;
 }

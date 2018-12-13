@@ -6,16 +6,21 @@
   </head>
 
   <body>
-    <h2>Jamquery</h2>
-    <p>"/ for search with name, # for search with date, + for add"</p>
-    <input
-      id="read-line"
-      type="text"
-      oninput="onReadLine(this.value)"
-      onkeyup="if (event.keyCode == 13) onEnter(this.value)"
-    />
-    <div id="res"><p>Request:</p></div>
-    <ol id="result"></ul>
+    <div id="container">
+      <div id="header">
+        <h2 class="title">Jamquery</h2>
+      </div>
+      
+      <p class="hint">/ for search with name, # for search with date, + for add</p>
+      <input
+        id="read-line"
+        type="text"
+        oninput="onReadLine(this.value)"
+        onkeyup="if (event.keyCode == 13) onEnter(this.value)"
+      />
+      <div id="res"><p>Request:</p></div>
+      <ol id="result"></ul>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

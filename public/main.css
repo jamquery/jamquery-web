@@ -1,5 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans");
+
 body {
   color: #333333;
+  font-family: "Open Sans", sans-serif;
+}
+
+div#container {
+  max-width: 800px;
+  margin: auto;
+}
+
+div#header {
+  border-bottom: 1px solid #eee;
 }
 
 a {
@@ -25,4 +37,30 @@ a:active {
 
 ol#result {
   color: #fe4a49;
+}
+
+input {
+  background: #eee;
+  border: 0;
+  padding: 8px;
+}
+
+input:focus {
+  outline: none;
+}
+
+input#read-line {
+  display: block;
+  width: 100%;
+  font-size: 1.5em;
+  margin: auto;
+}
+
+.title {
+  font-family: "Indie Flower", cursive;
+  text-align: center;
+}
+
+.hint {
+  text-align: center;
 }

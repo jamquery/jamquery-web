@@ -8,7 +8,7 @@ function onReadLine(value) {
 
   input = value;
 
-  if (input.length === 0) {
+  if (!input) {
     clearResult();
     return;
   }
@@ -39,7 +39,7 @@ function onEnter(value) {
 }
 
 function sendSearchRequest() {
-  requestSearch(input);
+  if (input) requestSearch(input);
 }
 
 function clearResult() {
@@ -56,8 +56,6 @@ function requestSearch(keyword) {
   http.onreadystatechange = function() {
     if (http.readyState == 4 && http.status == 200) {
       var jsonData = JSON.parse(http.responseText);
-      console.log(jsonData);
-
       var resultList = document.getElementById("result");
       resultList.innerHTML = "";
       jsonData.forEach(item => {

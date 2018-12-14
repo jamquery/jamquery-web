@@ -50,7 +50,7 @@ function clearResult() {
 function requestSearch(keyword) {
   keyword = encodeURIComponent(keyword);
 
-  var api = "http://localhost:3000/api";
+  var api = "/api";
   var http = new XMLHttpRequest();
   http.open("GET", api + "/" + keyword, true);
   http.onreadystatechange = function() {
@@ -134,7 +134,7 @@ function requestAdd(input) {
     return;
   }
 
-  var api = "http://localhost:3000/api";
+  var api = "/api";
   var http = new XMLHttpRequest();
   http.open("POST", api, true);
   http.setRequestHeader("Content-Type", "application/json");

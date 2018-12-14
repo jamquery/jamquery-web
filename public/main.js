@@ -42,6 +42,10 @@ function sendSearchRequest() {
   if (input) requestSearch(input);
 }
 
+function clearInput() {
+  document.getElementById("read-line").value = "";
+}
+
 function clearResult() {
   var resultList = document.getElementById("result");
   resultList.innerHTML = "";
@@ -108,7 +112,7 @@ function logRequest(message) {
 }
 
 function isAddInput(input) {
-  return input.startsWith("+");
+  return input && input.startsWith("+");
 }
 
 function parseAddInput(input) {
@@ -138,8 +142,12 @@ function requestAdd(input) {
   http.setRequestHeader("Content-Type", "application/json");
   http.onreadystatechange = function() {
     if (http.readyState == 4 && http.status == 200) {
-      alert(http.responseText);
+      clearInput();
+      logRequest("");
       logResult("Add new jamquery Success!");
+      setTimeout(function() {
+        clearResult();
+      }, 1000);
     }
   };
 

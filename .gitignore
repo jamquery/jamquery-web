@@ -153,4 +153,4 @@ typings/
 config/
 
 # For generated config files
-dist/
+**/dist/

@@ -12,15 +12,10 @@
       </div>
       
       <p class="hint">/ for search with name, # for search with date, + for add</p>
-      <input
-        id="read-line"
-        type="text"
-        oninput="onReadLine(this.value)"
-        onkeyup="if (event.keyCode == 13) onEnter(this.value)"
-      />
+      <input id="read-line" type="text"/>
       <div id="res"><p>Request:</p></div>
       <ol id="result"></ul>
     </div>
-    <script src="main.js"></script>
+    <script src="dist/main.js"></script>
   </body>
 </html>

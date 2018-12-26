@@ -2,6 +2,23 @@ var timeoutId = null;
 var input = null;
 
 // Callbacks
+window.onload = () => {
+  console.log("All assets are loaded!!");
+
+  const readline = document.getElementById("read-line");
+
+  readline.oninput = event => {
+    onReadLine(readline.value);
+  };
+
+  readline.onkeyup = event => {
+    // Test if the key is "Enter"
+    if (event.keyCode == 13) {
+      console.log(readline.value);
+      onEnter(readline.value);
+    }
+  };
+};
 
 function onReadLine(value) {
   logRequest(value);

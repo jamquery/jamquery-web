@@ -10,11 +10,6 @@
 - [ ] Process existing data
 - [ ] Show tag with title
 
-### Refactoring Step 1 - jQuery
-
-- [ ] Replace hard-coded DOM object creation with `document.createElement`
-- [ ] Replace `XMLHttpRequest` with jQuery
-
 ### Redesign
 
 - [ ] Clean up / Align results
@@ -22,7 +17,7 @@
 
 ### Functions
 
-- [ ] Do not show link in the result directly
+- [x] Do not show link in the result directly
 - [ ] Sort the results by date in descending order
 - [ ] Highlight words
 - [ ] Fuzzay search - approximate string matching

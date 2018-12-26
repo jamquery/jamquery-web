@@ -72,7 +72,7 @@ function requestSearch(keyword) {
 
 function makeText(jamquery) {
   var dateText = new Date(jamquery.updated).toLocaleDateString();
-  return jamquery.name + "&emsp;" + jamquery.url + "&emsp;" + dateText;
+  return jamquery.name + "&emsp;" + "&emsp;" + dateText;
 }
 
 function li(text) {

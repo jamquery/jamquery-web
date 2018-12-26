@@ -27,6 +27,7 @@ const onReadLine = value => {
 
   if (!input) {
     clearResult();
+    clearSearchRequest();
     return;
   }
 
@@ -35,12 +36,16 @@ const onReadLine = value => {
     return;
   }
 
+  clearSearchRequest();
+
+  timeoutId = setTimeout(sendSearchRequest, 100);
+};
+
+const clearSearchRequest = () => {
   if (timeoutId != null) {
     clearTimeout(timeoutId);
     timeoutId = null;
   }
-
-  timeoutId = setTimeout(sendSearchRequest, 100);
 };
 
 const onEnter = value => {
@@ -80,16 +85,18 @@ const requestSearch = keyword => {
       const resultList = document.getElementById("result");
       resultList.innerHTML = "";
       jsonData.forEach(item => {
-        resultList.innerHTML += li(a(makeText(item), item.url));
+        resultList.innerHTML += li(a(makeText(keyword, item), item.url));
       });
     }
   };
   http.send();
 };
 
-const makeText = jamquery => {
+const makeText = (keyword, jamquery) => {
   const dateText = new Date(jamquery.updated).toLocaleDateString();
-  return jamquery.name + "&emsp;" + "&emsp;" + dateText;
+  hlKeyword = highlight(keyword);
+  const hlText = jamquery.name.replace(new RegExp(keyword, "g"), hlKeyword);
+  return hlText + "&emsp;" + "&emsp;" + dateText;
 };
 
 const li = text => {
@@ -98,6 +105,10 @@ const li = text => {
 
 const p = text => {
   return "<p>" + text + "</p>";
+};
+
+const highlight = text => {
+  return '<span class="highlight">' + text + "</span>";
 };
 
 const a = (text, link) => {

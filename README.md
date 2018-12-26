@@ -54,7 +54,7 @@
 
 - [x] Do not show link in the result directly
 - [x] Sort the results by date in descending order
-- [ ] Highlight words
+- [x] Highlight words
 - [ ] Fuzzay search - approximate string matching
 
 ## Future Plan

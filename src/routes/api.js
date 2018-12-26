@@ -35,7 +35,7 @@ const api = connection => {
     var keyword = req.params.keyword;
 
     connection.query(
-      `SELECT * FROM tb_jamquery WHERE name LIKE '%${keyword}%' ORDER BY updated`,
+      `SELECT * FROM tb_jamquery WHERE name LIKE '%${keyword}%' ORDER BY updated DESC`,
       (err, rows) => {
         if (err) throw err;
         res.json(rows);

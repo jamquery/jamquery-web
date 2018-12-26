@@ -18,7 +18,7 @@
 ### Functions
 
 - [x] Do not show link in the result directly
-- [ ] Sort the results by date in descending order
+- [x] Sort the results by date in descending order
 - [ ] Highlight words
 - [ ] Fuzzay search - approximate string matching
 

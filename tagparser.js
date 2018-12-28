@@ -69,7 +69,7 @@ connection.query(sql, (err, rows, fields) => {
                                 }
                             );
 
-                            connection.query(`UPDATE tb_jamquery SET content=? WHERE id=?`,
+                            connection.query(`UPDATE tb_jamquery SET name=? WHERE id=?`,
                                 [newName, key],
                                 (err, results, fields) => {
                                     console.log(results);

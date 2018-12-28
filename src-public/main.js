@@ -3,8 +3,6 @@ var input = null;
 
 // Callbacks
 window.onload = () => {
-  console.log("All assets are loaded!!");
-
   const readline = document.getElementById("read-line");
 
   readline.oninput = event => {
@@ -27,7 +25,7 @@ const onReadLine = value => {
 
   if (!input) {
     clearResult();
-    clearSearchRequest();
+    clearSearchRequestCall();
     return;
   }
 
@@ -36,12 +34,12 @@ const onReadLine = value => {
     return;
   }
 
-  clearSearchRequest();
+  clearSearchRequestCall();
 
   timeoutId = setTimeout(sendSearchRequest, 100);
 };
 
-const clearSearchRequest = () => {
+const clearSearchRequestCall = () => {
   if (timeoutId != null) {
     clearTimeout(timeoutId);
     timeoutId = null;
@@ -81,6 +79,8 @@ const requestSearch = keyword => {
   http.open("GET", api + "/" + keyword, true);
   http.onreadystatechange = () => {
     if (http.readyState == 4 && http.status == 200) {
+      if (!input) return;
+
       const jsonData = JSON.parse(http.responseText);
       const resultList = document.getElementById("result");
       resultList.innerHTML = "";

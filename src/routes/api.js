@@ -30,17 +30,32 @@ const api = connection => {
     });
   });
 
+  const getJamquery = keyword =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT j.name, j.content, j.updated, t.name as tag FROM tb_jamquery j
+          JOIN tb_jamquery_tag_relation rel ON rel.jamquery_id = j.id
+          JOIN tb_tag t ON rel.tag_id = t.id
+          WHERE j.name LIKE ? OR t.name LIKE ?;`,
+        [`%${keyword}%`, `%${keyword}%`],
+        (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        }
+      );
+    });
+
   // TOOD: Levensthein algorithm
   router.get("/:keyword", (req, res) => {
     var keyword = req.params.keyword;
 
-    connection.query(
-      `SELECT * FROM tb_jamquery WHERE name LIKE '%${keyword}%' ORDER BY updated DESC`,
-      (err, rows) => {
-        if (err) throw err;
+    getJamquery(keyword)
+      .then(rows => {
         res.json(rows);
-      }
-    );
+      })
+      .catch(error => {
+        console.error(error);
+      });
   });
 
   return router;

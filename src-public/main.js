@@ -95,7 +95,7 @@ const requestSearch = keyword => {
 const makeText = (keyword, jamquery) => {
   const dateText = new Date(jamquery.updated).toLocaleDateString();
   hlKeyword = highlight(keyword);
-  const hlText = jamquery.name.replace(new RegExp(keyword, "g"), hlKeyword);
+  const hlText = jamquery.name.replace(new RegExp(keyword, "ig"), hlKeyword);
   return hlText + "&emsp;" + "&emsp;" + dateText;
 };
 

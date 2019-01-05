@@ -33,10 +33,12 @@ const api = connection => {
   const getJamquery = keyword =>
     new Promise((resolve, reject) => {
       connection.query(
-        `SELECT j.name, j.content, j.updated, t.name as tag FROM tb_jamquery j
+        `SELECT DISTINCT j.name, j.content, j.created, t.name as tag
+          FROM tb_jamquery j
           JOIN tb_jamquery_tag_relation rel ON rel.jamquery_id = j.id
           JOIN tb_tag t ON rel.tag_id = t.id
-          WHERE j.name LIKE ? OR t.name LIKE ?;`,
+          WHERE j.name LIKE ? OR t.name LIKE ?
+          ORDER BY j.created DESC`,
         [`%${keyword}%`, `%${keyword}%`],
         (err, rows) => {
           if (err) reject(err);
@@ -45,13 +47,31 @@ const api = connection => {
       );
     });
 
+  const groupTags = rows => {
+    const map = new Map();
+    rows.forEach(row => {
+      let key = row.name;
+      if (map[key] == undefined) {
+        map[key] = {
+          name: row.name,
+          content: row.content,
+          created: row.created,
+          tags: [row.tag]
+        };
+      } else {
+        map[key].tags.push(row.tag);
+      }
+    });
+    return Object.values(map);
+  };
+
   // TOOD: Levensthein algorithm
   router.get("/:keyword", (req, res) => {
     var keyword = req.params.keyword;
 
     getJamquery(keyword)
       .then(rows => {
-        res.json(rows);
+        res.json(groupTags(rows));
       })
       .catch(error => {
         console.error(error);

@@ -85,18 +85,35 @@ const requestSearch = keyword => {
       const resultList = document.getElementById("result");
       resultList.innerHTML = "";
       jsonData.forEach(item => {
-        resultList.innerHTML += li(a(makeText(keyword, item), item.url));
+        const hlDateText = makeHighlight(
+          new Date(item.created).toLocaleDateString(),
+          keyword
+        );
+        const hlName = makeHighlight(item.name, keyword);
+        const hlTag = makeHighlight(item.tags.join(", "), keyword);
+        resultList.innerHTML += div(
+          a(resultItem(hlTag, hlName, hlDateText), item.content)
+        );
       });
     }
   };
   http.send();
 };
 
-const makeText = (keyword, jamquery) => {
-  const dateText = new Date(jamquery.updated).toLocaleDateString();
-  hlKeyword = highlight(keyword);
-  const hlText = jamquery.name.replace(new RegExp(keyword, "ig"), hlKeyword);
-  return hlText + "&emsp;" + "&emsp;" + dateText;
+const makeHighlight = (text, keyword) => {
+  return text.replace(new RegExp(keyword, "ig"), sub => highlight(sub));
+};
+
+const resultItem = (tags, content, date) => {
+  return `<div class="result-item">
+    <span class="tag">${tags}</span>
+    <span class="content">${content}</span>
+    <span class="date">${date}</span>
+  </div>`;
+};
+
+const div = text => {
+  return "<div>" + text + "</div>";
 };
 
 const li = text => {

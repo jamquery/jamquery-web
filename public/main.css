@@ -16,6 +16,7 @@ div#header {
 
 a {
   color: #333333;
+  text-decoration: none;
 }
 
 a:link {
@@ -27,16 +28,44 @@ a:visited {
 }
 
 a:hover {
-  text-decoration: underline;
-  color: #fe4a49;
+  text-decoration: none;
 }
 
 a:active {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
-ol#result {
-  color: #fe4a49;
+div#result {
+  display: flex;
+  flex-direction: column;
+}
+
+div.result-item {
+  display: flex;
+  padding: 4px;
+}
+
+div.result-item:hover {
+  background-color: #f4f4f4;
+}
+
+div.result-item span.tag {
+  display: inline-block;
+  min-width: 15%;
+  text-align: start;
+}
+
+div.result-item span.content {
+  display: inline-block;
+  word-wrap: break-word;
+  word-break: break-all;
+  flex-grow: 5;
+}
+
+div.result-item span.date {
+  display: inline-block;
+  min-width: 15%;
+  text-align: end;
 }
 
 input {

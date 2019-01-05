@@ -1,0 +1,10 @@
+[Unit]
+Description=Jamquery Service
+
+[Service]
+ExecStart=/home/ec2-user/jamquery-backend/run.sh
+Restart=always
+WorkingDirectory=/home/ec2-user/jamquery-backend
+
+[Install]
+WantedBy=multi-user.target

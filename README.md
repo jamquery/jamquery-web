@@ -40,9 +40,11 @@
 
 ### Tag system
 
-- [ ] Add `tag` column
-- [ ] Process existing data
-- [ ] Show tag with title
+- [x] Add `tag` column
+- [x] Process existing data
+- [x] Show tag with title
+- [ ] Process input with tags
+- [ ] Handle long tags
 
 ### Redesign
 

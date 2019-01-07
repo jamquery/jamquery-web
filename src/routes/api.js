@@ -168,9 +168,12 @@ const api = connection => {
           tags: [row.tag]
         };
       } else {
+        // Sort tags in alphabetical order.
         map[key].tags.push(row.tag);
+        map[key].tags.sort();
       }
     });
+
     return Object.values(map);
   };
 

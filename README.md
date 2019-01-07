@@ -43,7 +43,7 @@
 - [x] Add `tag` column
 - [x] Process existing data
 - [x] Show tag with title
-- [ ] Process input with tags
+- [x] Process input with tags
 - [ ] Handle long tags
 
 ### Redesign

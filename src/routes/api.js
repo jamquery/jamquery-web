@@ -3,8 +3,100 @@ import express from "express";
 const api = connection => {
   const router = express.Router();
 
+  const beginTransaction = () =>
+    new Promise((resolve, reject) => {
+      connection.beginTransaction(err => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+  const rollback = () =>
+    new Promise((resolve, reject) => {
+      connection.rollback(err => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+  const commit = () =>
+    new Promise((resolve, reject) => {
+      connection.commit(err => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+  const parseName = name => {
+    let tags = [];
+
+    while (true) {
+      let startIndex = name.indexOf("[") + 1;
+      let endIndex = name.indexOf("]", startIndex);
+      if (endIndex === -1) {
+        break;
+      }
+
+      let tag = name.slice(startIndex, endIndex).toLowerCase();
+      name = name.slice(endIndex + 1).trim();
+      tags.push(tag);
+    }
+
+    return {
+      tags,
+      name
+    };
+  };
+
+  const findTag = tag =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM tb_tag WHERE tb_tag.name = ?`,
+        [tag],
+        (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        }
+      );
+    });
+
+  // Add new tag. Returns the id of inserted row.
+  const addTag = tag =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        `INSERT INTO tb_tag (name) VALUES (?)`,
+        [tag],
+        (err, results, fields) => {
+          if (err) reject(err);
+          else resolve(results.insertId);
+        }
+      );
+    });
+
+  const createJamqueryTagRelation = (jamqueryId, tagId) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        `INSERT INTO tb_jamquery_tag_relation (jamquery_id, tag_id) VALUES (?, ?)`,
+        [jamqueryId, tagId],
+        (err, results, fields) => {
+          if (err) reject(err);
+          else resolve(results.insertId);
+        }
+      );
+    });
+
+  // Add new jamquery. Returns the id of inserted row.
+  const addJamquery = (name, content) =>
+    new Promise((resolve, reject) => {
+      const sql = `INSERT INTO tb_jamquery (name, content) VALUES (?, ?)`;
+      connection.query(sql, [name, content], (err, results, fields) => {
+        if (err) reject(err);
+        else resolve(results.insertId);
+      });
+    });
+
   router.post("/", (req, res) => {
-    const data = req.body;
+    let data = req.body;
 
     // Sanity check
     if (data == undefined || data.url == undefined || data.name == undefined) {
@@ -12,22 +104,39 @@ const api = connection => {
       return;
     }
 
-    const sql = `INSERT INTO tb_jamquery (name, url) VALUES (?, ?)`;
-    connection.query(sql, [data.name, data.url], function(
-      err,
-      results,
-      fields
-    ) {
-      if (err) {
-        console.error("Error occurred while performing the query: " + sql);
-        res.status(500).send("Internal Error occured");
-        return;
-      }
+    let parsedData = parseName(data.name);
 
-      res.json({
-        id: results.insertId
+    beginTransaction()
+      .then(() => {
+        return addJamquery(parsedData.name, data.url);
+      })
+      .then(jamqueryId => {
+        return Promise.all(
+          parsedData.tags.map(tag => {
+            return findTag(tag)
+              .then(rows => {
+                if (rows.length > 0) {
+                  return rows[0].id;
+                } else {
+                  return addTag(tag);
+                }
+              })
+              .then(tagId => {
+                return createJamqueryTagRelation(jamqueryId, tagId);
+              });
+          })
+        ).then(relationIds => {
+          res.json({
+            id: jamqueryId
+          });
+          return commit();
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Internal Error");
+        return rollback();
       });
-    });
   });
 
   const getJamquery = keyword =>
@@ -75,6 +184,7 @@ const api = connection => {
       })
       .catch(error => {
         console.error(error);
+        res.status(500).send("Internal Error");
       });
   });
 

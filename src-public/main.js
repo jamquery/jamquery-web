@@ -12,7 +12,6 @@ window.onload = () => {
   readline.onkeyup = event => {
     // Test if the key is "Enter"
     if (event.keyCode == 13) {
-      console.log(readline.value);
       onEnter(readline.value);
     }
   };

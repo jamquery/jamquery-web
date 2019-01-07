@@ -48,6 +48,7 @@
 
 ### Redesign
 
+- [ ] Make sketch file
 - [ ] Clean up / Align results
 - [ ] Dark style
 - [ ] integrate CSS files using babel
@@ -57,7 +58,9 @@
 - [x] Do not show link in the result directly
 - [x] Sort the results by date in descending order
 - [x] Highlight words
-- [ ] Fuzzay search - approximate string matching
+- [ ] Fuzzy search - approximate string matching
+- [ ] Search methods - name, tag, date
+- [ ] Pagination (Infinite scrolling)
 
 ## Future Plan
 

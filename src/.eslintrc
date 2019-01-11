@@ -1,0 +1,25 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "extends": "airbnb",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-console": "off",
+    "no-use-before-define": "off"
+  }
+}

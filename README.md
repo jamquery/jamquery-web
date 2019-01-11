@@ -66,7 +66,7 @@
 
 - [ ] Project structure
 - [x] Add .npmrc
-- [ ] Use ESLint with Airbnb standards
+- [x] Use ESLint with Airbnb standards
 - [ ] Add tests
 
 ## Future Plan

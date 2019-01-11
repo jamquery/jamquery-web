@@ -7,17 +7,17 @@ export default () => {
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USERNAME,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB_NAME
+    database: process.env.MYSQL_DB_NAME,
   });
 
   // Establishing connection
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
-      console.error("Error connecting to mysql: " + err.stack);
+      console.error(`Error connecting to mysql: ${err.stack}`);
       return;
     }
 
-    console.log("Connected to mysql as id " + connection.threadId);
+    console.log(`Connected to mysql as id ${connection.threadId}`);
   });
 
   return connection;

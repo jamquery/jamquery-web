@@ -65,7 +65,7 @@
 ### Refactoring
 
 - [ ] Project structure
-- [ ] Add .npmrc
+- [x] Add .npmrc
 - [ ] Use ESLint with Airbnb standards
 - [ ] Add tests
 

@@ -62,6 +62,13 @@
 - [ ] Search methods - name, tag, date
 - [ ] Pagination (Infinite scrolling)
 
+### Refactoring
+
+- [ ] Project structure
+- [ ] Add .npmrc
+- [ ] Use ESLint with Airbnb standards
+- [ ] Add tests
+
 ## Future Plan
 
 ### Extend concept of jamquery
@@ -72,6 +79,10 @@ Currently It only stores `link`. Managing simple notes or code snippets would be
 
 Anyone can access it now. Maybe some authentication is needed.
 
-### React
+### Introducing Vue.js
 
-As the project gets bigger,
+If the project gets bigger, concrete structure will be more important. Also Vue.js is promising framework currently. (in 2019)
+
+### Analyzing the developing pattern
+
+Look at the jamqueries, and you will see the patterns in those links. It is quite helpful when we want to take a retrospect to figure out what I've done, and so on.

@@ -19,6 +19,20 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": "always",
+        "ObjectPattern": {
+          "multiline": true
+        },
+        "ImportDeclaration": "never",
+        "ExportDeclaration": {
+          "multiline": true,
+          "minProperties": 3
+        }
+      }
+    ]
   }
 }

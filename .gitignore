@@ -154,3 +154,9 @@ config/
 
 # For generated config files
 **/dist/
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map

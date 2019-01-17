@@ -48,10 +48,10 @@
 
 ### Redesign
 
-- [ ] Make sketch file
+- [x] Make sketch file
 - [ ] Clean up / Align results
 - [ ] Dark style
-- [ ] integrate CSS files using babel
+- [x] Use webpack to bundle up scss files
 
 ### Functions
 

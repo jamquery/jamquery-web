@@ -1,3 +1,4 @@
+// Temporary script. Don't use it.
 import database from "./src/database";
 
 const connection = database();
@@ -17,7 +18,7 @@ const parseRow = (row) => {
     while (true) {
         let startIndex = name.indexOf("[") + 1;
         let endIndex = name.indexOf("]", startIndex);
-        
+
         if (endIndex === -1) {
             break;
         }

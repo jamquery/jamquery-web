@@ -1,3 +1,6 @@
+// webpack configuration script.
+// Visit here for docs: https://webpack.js.org/concepts
+
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 

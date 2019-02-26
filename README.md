@@ -61,6 +61,7 @@
 - [ ] Fuzzy search - approximate string matching
 - [ ] Search methods - name, tag, date
 - [ ] Pagination (Infinite scrolling)
+- [ ] Remove link
 
 ### Refactoring
 

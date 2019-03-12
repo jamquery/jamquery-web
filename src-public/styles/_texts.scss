@@ -1,0 +1,37 @@
+/* Text styles */
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:700|Open+Sans|Raleway:100,200');
+
+@mixin Header-1 {
+  font-family: "Raleway";
+  font-weight: 200;
+  text-transform: uppercase;
+  font-size: 48px;
+  letter-spacing: 20px;
+  text-align: center;
+  color: $grey1;
+}
+
+@mixin Sub-Header {
+  font-family: 'Raleway';
+  font-size: 20px;
+  font-weight: 100;
+  letter-spacing: 3.5px;
+  text-align: center;
+  color: $grey2;
+}
+
+@mixin Normal-Text {
+  font-family: 'Open-Sans';
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: $monotonic-grey;
+}
+
+@mixin Tag-Text {
+  font-family: 'Comfortaa';
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  color: $grey5;
+}

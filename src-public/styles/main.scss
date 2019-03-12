@@ -1,20 +1,13 @@
+// Globla reset
 @import "reset";
-@import url("https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans");
+
+// Project styles
 @import "colors";
 @import "texts";
 
 body {
-  color: #333333;
-  font-family: "Open Sans", sans-serif;
-}
-
-div#container {
-  max-width: 800px;
-  margin: auto;
-}
-
-div#header {
-  border-bottom: 1px solid #eee;
+  @include Normal-Text;
+  background: $white;
 }
 
 a {
@@ -36,6 +29,54 @@ a:hover {
 
 a:active {
   text-decoration: none;
+}
+
+div#container {
+  max-width: 800px;
+  margin: auto;
+}
+
+#header {
+  height: 214.5px;
+
+  h1 {
+    @include Header-1;
+    height: 56px;
+    padding-top: 65px;
+  }
+
+  h2 {
+    @include Sub-Header;
+    height: 24px;
+    padding-top: 7px;
+  }
+}
+
+div.divider {
+  width: 737px;
+  height: 1px;
+  margin: 0 auto;
+  background: $grey3;
+}
+
+div.input {
+  width: 680px;
+  height: 48px;
+  background: $grey4;
+  margin: 41.5px auto 0 auto;
+}
+
+input:focus {
+  outline: none;
+}
+
+input#read-line {
+  @include Normal-Text;
+  border: 0;
+  background: transparent;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 div#result {
@@ -69,28 +110,6 @@ div.result-item span.date {
   display: inline-block;
   min-width: 15%;
   text-align: end;
-}
-
-input {
-  background: #eee;
-  border: 0;
-  padding: 8px;
-}
-
-input:focus {
-  outline: none;
-}
-
-input#read-line {
-  display: block;
-  width: 100%;
-  font-size: 1.5em;
-  margin: auto;
-}
-
-.title {
-  font-family: "Indie Flower", cursive;
-  text-align: center;
 }
 
 .hint {

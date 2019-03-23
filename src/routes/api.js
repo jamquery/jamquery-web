@@ -123,7 +123,7 @@ const api = (connection) => {
   const groupTags = (rows) => {
     const map = new Map();
     rows.forEach((row) => {
-      const key = row.name;
+      const key = row.created;
       if (map[key] === undefined) {
         map[key] = {
           name: row.name,

@@ -57,8 +57,36 @@ const onEnter = (value) => {
   requestAdd(value);
 };
 
+const getOptionFromInput = (input) => {
+  let option = null;
+  let newInput = input;
+
+  if (input.startsWith("/")) {
+    option = "name";
+    newInput = input.slice(1);
+  }
+
+  if (input.startsWith("@")) {
+    option = "tag";
+    newInput = input.slice(1);
+  }
+
+  if (input.startsWith("#")) {
+    option = "date";
+    newInput = input.slice(1);
+  }
+
+  return {
+    option,
+    newInput,
+  };
+};
+
 const sendSearchRequest = () => {
-  if (globalInput) requestSearch(globalInput);
+  if (globalInput) {
+    const { option, newInput } = getOptionFromInput(globalInput);
+    requestSearch(option, newInput);
+  }
 };
 
 const clearInput = () => {
@@ -70,12 +98,21 @@ const clearResult = () => {
   resultList.innerHTML = "";
 };
 
-const requestSearch = (keyword) => {
+const requestSearch = (option, keyword) => {
+  if (keyword === null || keyword.length === 0) {
+    return;
+  }
+
   const encodedKeyword = encodeURIComponent(keyword);
+
+  let urlFix = "";
+  if (option) {
+    urlFix = `${option}/`;
+  }
 
   const api = "/api";
   const http = new XMLHttpRequest();
-  http.open("GET", `${api}/${encodedKeyword}`, true);
+  http.open("GET", `${api}/${urlFix}${encodedKeyword}`, true);
   http.onreadystatechange = () => {
     if (http.readyState === 4 && http.status === 200) {
       if (!globalInput) return;

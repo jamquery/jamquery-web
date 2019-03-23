@@ -16,7 +16,7 @@
     "build": "npm-run-all -ls build:**",
     "build:client": "webpack --mode=production",
     "build:server": "babel src --out-dir dist",
-    "serve": "source config/setup-env.sh; export NODE_ENV=production; node dist/index.js"
+    "serve": "source config/setup-env.sh; export NODE_ENV=production; forever start dist/index.js"
   },
   "author": "tura",
   "license": "MIT",

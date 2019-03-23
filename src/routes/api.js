@@ -24,28 +24,6 @@ const api = (connection) => {
     });
   });
 
-  const parseName = (input) => {
-    let name = input;
-    const tags = [];
-
-    while (name.length > 0) {
-      const startIndex = name.indexOf("[") + 1;
-      const endIndex = name.indexOf("]", startIndex);
-      if (endIndex === -1) {
-        break;
-      }
-
-      const tag = name.slice(startIndex, endIndex).toLowerCase();
-      name = name.slice(endIndex + 1).trim();
-      tags.push(tag);
-    }
-
-    return {
-      tags,
-      name,
-    };
-  };
-
   const findTag = tag => new Promise((resolve, reject) => {
     connection.query(
       "SELECT * FROM tb_tag WHERE tb_tag.name = ?",
@@ -93,17 +71,19 @@ const api = (connection) => {
     const data = req.body;
 
     // Sanity check
-    if (data === undefined || data.url === undefined || data.name === undefined) {
+    if (
+      data === undefined
+      || data.tags === undefined
+      || data.url === undefined
+      || data.name === undefined
+    ) {
       res.status(400).send("Bad request format");
-      return;
     }
 
-    const parsedData = parseName(data.name);
-
     beginTransaction()
-      .then(() => addJamquery(parsedData.name, data.url))
+      .then(() => addJamquery(data.name, data.url))
       .then(jamqueryId => Promise.all(
-        parsedData.tags.map(tag => findTag(tag)
+        data.tags.map(tag => findTag(tag)
           .then((rows) => {
             if (rows.length > 0) {
               return rows[0].id;

@@ -127,7 +127,8 @@ const logRequest = (message) => {
   const responseText = document.getElementById("res");
   if (isAddInput(message)) {
     const result = parseAddInput(message);
-    responseText.innerHTML = p(`Name: ${result.name}`)
+    responseText.innerHTML = p(`Tags: ${result.tags}`)
+      + p(`Name: ${result.name}`)
       + p(`Url: ${isUrl(result.url) ? result.url : ""}`);
   } else {
     responseText.innerHTML = p(`Request: ${message}`);
@@ -136,19 +137,46 @@ const logRequest = (message) => {
 
 const isAddInput = input => input && input.startsWith("+");
 
+const parseName = (input) => {
+  let name = input;
+  const tags = [];
+
+  while (name.length > 0) {
+    const startIndex = name.indexOf("[") + 1;
+    const endIndex = name.indexOf("]", startIndex);
+    if (endIndex === -1) {
+      break;
+    }
+
+    const tag = name.slice(startIndex, endIndex).toLowerCase();
+    name = name.slice(endIndex + 1).trim();
+    tags.push(tag);
+  }
+
+  return {
+    tags,
+    name,
+  };
+};
+
 const parseAddInput = (input) => {
   const space = input.lastIndexOf(" ");
   const url = space !== -1 ? input.slice(space).trim() : "";
-  const name = space !== -1 ? input.slice(1, space).trim() : input.slice(1).trim();
+
+  const temp = space !== -1
+    ? input.slice(1, space).trim()
+    : input.slice(1).trim();
+  const { tags, name } = parseName(temp);
 
   return {
+    tags,
     url,
     name,
   };
 };
 
 const requestAdd = (input) => {
-  const { name, url } = parseAddInput(input);
+  const { tags, name, url } = parseAddInput(input);
 
   if (!isUrl(url)) {
     logResult(`Invalid URL: ${url}`);
@@ -161,16 +189,18 @@ const requestAdd = (input) => {
   http.setRequestHeader("Content-Type", "application/json");
   http.onreadystatechange = () => {
     if (http.readyState === 4 && http.status === 200) {
+      const jsonData = JSON.parse(http.responseText);
+
       clearInput();
       logRequest("");
-      logResult("Add new jamquery Success!");
+      logResult(`Add new jamquery Success with id ${jsonData.id}`);
       setTimeout(clearResult, 1000);
     }
   };
 
-  // var data = JSON.stringify();
   http.send(
     JSON.stringify({
+      tags,
       name,
       url,
     }),

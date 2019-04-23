@@ -1,6 +1,9 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import morgan from "morgan";
+import fs from "fs";
+import path from "path";
 import { api } from "./routes";
 import database from "./database";
 import parsePort from "./parsePort";
@@ -14,8 +17,11 @@ const errorHandler = (err, _req, res, _next) => {
   res.status(500).send("internal server error");
 };
 
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
 app.use(cors());
 app.use(helmet());
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(errorHandler);
 app.use(express.json());
 app.use(express.static("public"));
